@@ -32,7 +32,8 @@ let leftToRight = 0;
 let x, y;
 let maxSnotSpeed = 8;
 let coinX,coinY;
-let totalCount = 0;
+let totalOnlineCoins = 0;
+let numUsers = 0;
 
 let coinSize = 40;
 let snotSize = 10;
@@ -145,6 +146,7 @@ function drawOthers(id){
   
   pop();
 
+  
 }
 
 
@@ -184,10 +186,19 @@ function visualiseMyData(){
   fill(0);
   textSize(15);
 
+  for (let id in experienceState.users) {
+  numUsers++;
+  totalOnlineCoins += experienceState.users[id].coinCount || 0;
+}
+
   text("count: "+count,10,150); 
-  text("total count:"+ totalCount, 10, 180);
+  text("Online users:" +numUsers, 10, 210);
+  text("Online total coins:" +totalOnlineCoins, 10, 240);
   
   checkCollision();
+
+
+
 }
 
 function checkCollision() {
@@ -196,6 +207,12 @@ function checkCollision() {
   coinY = random(0, height);
   count = count+1;
   socket.emit("coinCollected");//Informing sever
+  socket.on("coinCountUpdated",(data)=>{
+    const{ id,coinCount} = data;
+    if(experienceState.users[id]){
+      experienceState.users[id].coinCount = coinCount;
+    }
+  });
   }
 }
 
@@ -283,10 +300,10 @@ socket.on("userMoved", (data) => {
     experienceState.users[id].motionData = data.motion;
   }
 });
-socket.on("totalUpdated",(newTotal)=>{
+// socket.on("totalUpdated",(newTotal)=>{
 
-  totalCount = newTotal;
-})
+//   totalCount = newTotal;
+// })
 
 // --------------------
 // Permission handling
