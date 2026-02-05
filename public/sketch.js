@@ -392,4 +392,4 @@ function checkMobileDevice() {
     These libraries properly parse the userAgent and can tell you
     whether the device is a phone, tablet, or desktop with much
     higher accuracy than a simple regex.
-*/}
+*/
