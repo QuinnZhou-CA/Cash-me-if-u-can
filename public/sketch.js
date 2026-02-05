@@ -88,10 +88,10 @@ function draw() {
   // draw all users including myself
   for (let id in experienceState.users) {
     //if I'm a moving device not a PC / laptop
-  //   if(experienceState.users[id].deviceMoves){
-  //     drawOthers(id);
-  //   }
-  // }
+    if(experienceState.users[id].deviceMoves){
+      drawOthers(id);
+    }
+  }
 
   // DESKTOP MESSAGE 
   if (!isMobileDevice) {
@@ -118,7 +118,7 @@ function draw() {
 // Custom Functions
 // --------------------
 
-visualise other drawing
+//visualise other drawing
 function drawOthers(id){
   circle(coinX, coinY, coinSize);
 //   pop();
@@ -211,10 +211,10 @@ function emitData(){
   lastSent = now;
 
   let myMotionData = {
-    screenPosition: { 
-      x: randomX,
-      y: randomY
-    },
+    // screenPosition: { 
+    //   x: randomX,
+    //   y: randomY
+    // },
     acceleration: {
       x: accX,
       y: accY,
@@ -392,4 +392,4 @@ function checkMobileDevice() {
     These libraries properly parse the userAgent and can tell you
     whether the device is a phone, tablet, or desktop with much
     higher accuracy than a simple regex.
-*/
+*/}
