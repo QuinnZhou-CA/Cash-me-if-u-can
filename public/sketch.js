@@ -183,6 +183,7 @@ function visualiseMyData(){
   
   
   pop();
+  checkCollision();
 
 }
 
@@ -190,7 +191,6 @@ function checkCollision() {
   if(dist(coinX, coinY, x, y)< coinSize/2 + snotSize/2){
   coinX = random(0,width);
   coinY = random(0, height);
-
   socket.emit("coinCollected");
   }
 }
