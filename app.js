@@ -23,10 +23,18 @@ let experienceState = {
   users: {}            // socket.id -> movement data
 };
 
+let totalCount = 0;
 
 // Callback function for when our P5.JS sketch connects 
 io.on("connection", (socket) => {
   console.log("a user connected: ", socket.id);
+
+  socket.on("coinCllected",()=>{
+    totalCount = totalCount+1;
+
+    io.emit("totalUpdated",totalCount);
+  })
+  
 
   // Create user + data structure
   experienceState.users[socket.id] = {

@@ -32,6 +32,7 @@ let leftToRight = 0;
 let x, y;
 let maxSnotSpeed = 8;
 let coinX,coinY;
+let totalCount = 0;
 
 let coinSize = 40;
 let snotSize = 10;
@@ -178,17 +179,13 @@ function visualiseMyData(){
   
   
   pop();
-
-  
-  
-  
   
   //Debug text
   fill(0);
   textSize(15);
-  
 
   text("count: "+count,10,150); 
+  text("total count:"+ totalCount, 10, 180);
   
   checkCollision();
 }
@@ -198,6 +195,7 @@ function checkCollision() {
   coinX = random(0,width);
   coinY = random(0, height);
   count = count+1;
+  socket.emit("coinCollected");//Informing sever
   }
 }
 
@@ -285,6 +283,10 @@ socket.on("userMoved", (data) => {
     experienceState.users[id].motionData = data.motion;
   }
 });
+socket.on("totalUpdated",(newTotal)=>{
+
+  totalCount = newTotal;
+})
 
 // --------------------
 // Permission handling
