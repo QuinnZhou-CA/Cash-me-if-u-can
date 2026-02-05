@@ -177,24 +177,12 @@ function visualiseMyData(){
   //if the phone is rotated front/back/left/right we will get an arrow point in that direction 
   push();
   translate(width/2,height/2);
-
-
-  
   x = x + constrain(map(leftToRight,-50,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
   
-   y = y + constrain(map(frontToBack,-30,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
+  y = y + constrain(map(frontToBack,-30,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
   
   
   pop();
-  
-
-  fill(0);
-  textSize(16);
-  text("My coins: " + myCount, 10, 30);
-  text("Total coins (everyone online): " + onlineTotal, 10, 55)
-  checkCollision();
-
-
 
 }
 
@@ -218,6 +206,11 @@ function drawScores() {
       myCount = experienceState.users[id].count;
     }
   }
+  fill(0);
+  textSize(16);
+  text("My coins: " + myCount, 10, 30);
+  text("Total coins (everyone online): " + onlineTotal, 10, 55);
+  text("Total coins (history): " + totalCount, 10, 80);
 }
 
 

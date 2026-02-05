@@ -20,38 +20,36 @@ server.listen(port, () => {
 
 // EXPERIENCE STATE server is the authority
 let experienceState = {
-  users: {}            // socket.id -> movement data
+  users: {},            // socket.id -> movement data
+  totalCount: 0
 };
 
-let totalCount = 0;
 
 // Callback function for when our P5.JS sketch connects 
 io.on("connection", (socket) => {
   console.log("a user connected: ", socket.id);
-
-  socket.on("coinCllected",()=>{
-    totalCount = totalCount+1;
-
-    io.emit("totalUpdated",totalCount);
-  })
   
-
   // Create user + data structure
   experienceState.users[socket.id] = {
     deviceMoves: false,  // flag used to only draw moving devices
-    motionData: {}       // motion data stored here
+    motionData: {},       // motion data stored here
+    count: 0
+
   };
 
   // Send FULL state once (on join only)
   socket.emit("init", {
     id: socket.id,
     state: experienceState
-  });
+  }
+
+);
 
   // Tell others a new user joined
   socket.broadcast.emit("userJoined", {
     id: socket.id,
     user: experienceState.users[socket.id]
+
   });
 
   // Code to run every time we get a message from front-end P5.JS
@@ -79,6 +77,20 @@ io.on("connection", (socket) => {
 
     io.emit("userLeft", socket.id);
   });
+
+  socket.on("coinCollected", () => {
+  let user = experienceState.users[socket.id];
+  if (!user) return;
+
+  user.count += 1;          // 个人分
+  experienceState.totalCount += 1; // 全局总分
+
+  io.emit("scoreUpdate", {
+    users: experienceState.users,
+    totalCount: experienceState.totalCount
+  });
+});
+
 
 });
 
