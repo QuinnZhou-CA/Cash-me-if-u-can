@@ -32,13 +32,14 @@ let leftToRight = 0;
 let x, y;
 let maxSnotSpeed = 8;
 let coinX,coinY;
-let totalOnlineCoins = 0;
-let numUsers = 0;
+
 
 let coinSize = 40;
 let snotSize = 10;
 
 let count = 0;
+let totalCount = 0;
+
 
 // throttle device motion sending
 let lastSent = 0;
@@ -92,7 +93,7 @@ function draw() {
     //if I'm a moving device not a PC / laptop
     if(experienceState.users[id].deviceMoves){
       drawOthers(id);
-    }
+    } 
   }
 
   // DESKTOP MESSAGE 
@@ -114,7 +115,11 @@ function draw() {
     }
   }
 
-}
+  drawScores();
+
+};
+
+
 
 // --------------------
 // Custom Functions
@@ -182,19 +187,11 @@ function visualiseMyData(){
   
   pop();
   
-  //Debug text
+
   fill(0);
-  textSize(15);
-
-  for (let id in experienceState.users) {
-  numUsers++;
-  totalOnlineCoins += experienceState.users[id].coinCount || 0;
-}
-
-  text("count: "+count,10,150); 
-  text("Online users:" +numUsers, 10, 210);
-  text("Online total coins:" +totalOnlineCoins, 10, 240);
-  
+  textSize(16);
+  text("My coins: " + myCount, 10, 30);
+  text("Total coins (everyone online): " + onlineTotal, 10, 55)
   checkCollision();
 
 
@@ -205,16 +202,24 @@ function checkCollision() {
   if(dist(coinX, coinY, x, y)< coinSize/2 + snotSize/2){
   coinX = random(0,width);
   coinY = random(0, height);
-  count = count+1;
-  socket.emit("coinCollected");//Informing sever
-  socket.on("coinCountUpdated",(data)=>{
-    const{ id,coinCount} = data;
-    if(experienceState.users[id]){
-      experienceState.users[id].coinCount = coinCount;
-    }
-  });
+
+  socket.emit("coinCollected");
   }
 }
+
+function drawScores() {
+  let myCount = 0;
+  let onlineTotal = 0;
+
+  for (let id in experienceState.users) {
+    onlineTotal += experienceState.users[id].count;
+
+    if (id === me) {
+      myCount = experienceState.users[id].count;
+    }
+  }
+}
+
 
 // SEND DATA TO SERVER
 function emitData(){
@@ -300,10 +305,13 @@ socket.on("userMoved", (data) => {
     experienceState.users[id].motionData = data.motion;
   }
 });
-// socket.on("totalUpdated",(newTotal)=>{
 
-//   totalCount = newTotal;
-// })
+socket.on("scoreUpdate", (data) => {
+  experienceState.users = data.users;
+  totalCount = data.totalCount;
+});
+
+
 
 // --------------------
 // Permission handling
