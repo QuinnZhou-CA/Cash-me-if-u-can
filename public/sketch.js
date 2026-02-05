@@ -118,23 +118,33 @@ function draw() {
 // Custom Functions
 // --------------------
 
-//visualise other drawing
-// function drawOthers(id){
-//   let u = experienceState.users[id];
-//   let motion = u.motionData;
-//   // console.log(u);
-
-//   let rectHeight = map(motion.orientation.beta, -90,90,0,height);//front to back is beta
-//   // console.log(rectHeight,motion.orientation.beta);
-
-//   fill(0,0,255,100);// slightly transparent
-//   push();
-//   rectMode(CORNER);
-//   noStroke();
-//   rect(motion.screenPosition.x,0,40,rectHeight);
+visualise other drawing
+function drawOthers(id){
+  circle(coinX, coinY, coinSize);
 //   pop();
+  
+  push();
+  stroke('rgb(217,238,171)');
+  strokeWeight(snotSize);
+  line(width/2, height/2, x,y);
+  pop();
+ 
+  
+  //Creating a tilt sensor mechanic that has a sort of boolean logic (on or off)
+  //if the phone is rotated front/back/left/right we will get an arrow point in that direction 
+  push();
+  translate(width/2,height/2);
 
-// }
+
+  
+  x = x + constrain(map(leftToRight,-50,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
+  
+   y = y + constrain(map(frontToBack,-30,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
+  
+  
+  pop();
+
+}
 
 
 function visualiseMyData(){
@@ -142,62 +152,53 @@ function visualiseMyData(){
   let totalMovement =
     Math.abs(accX) + Math.abs(accY) + Math.abs(accZ);
 
-  if (totalMovement > 2) {
-    background(255, 0, 0, 50); // make it slightly transparent
-  }
+  background(255);
 
-  // Orientation arrows
+//   push();
+  circle(coinX, coinY, coinSize);
+//   pop();
+  
   push();
-  fill(0);
-  translate(width / 2, height / 2);
+  stroke('rgb(217,238,171)');
+  strokeWeight(snotSize);
+  line(width/2, height/2, x,y);
+  pop();
+ 
+  
+  //Creating a tilt sensor mechanic that has a sort of boolean logic (on or off)
+  //if the phone is rotated front/back/left/right we will get an arrow point in that direction 
+  push();
+  translate(width/2,height/2);
 
-  if (frontToBack > 40) {
-    rotate(180);
-    triangle(-30, -40, 0, -100, 30, -40);
-  } else if (frontToBack < 0) {
-    triangle(-30, -40, 0, -100, 30, -40);
-  }
 
-  if (leftToRight > 20) {
-    rotate(90);
-    triangle(-30, -40, 0, -100, 30, -40);
-  } else if (leftToRight < -20) {
-    rotate(-90);
-    triangle(-30, -40, 0, -100, 30, -40);
-  }
-
+  
+  x = x + constrain(map(leftToRight,-50,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
+  
+   y = y + constrain(map(frontToBack,-30,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
+  
+  
   pop();
 
-  push();
-  fill(255);
-  rectMode(CORNER);
-  rect(0,20,width/2,190);
-  pop();
-
-  // Debug text
+  
+  
+  
+  
+  //Debug text
   fill(0);
-  textAlign(LEFT);
+  textSize(15);
+  
 
-  text("Acceleration:", 10, 40);
-  text(
-    accX.toFixed(2) + ", " + accY.toFixed(2)+ ", " + accZ.toFixed(2),
-    10,
-    60
-  );
+  text("count: "+count,10,150); 
+  
+  checkCollision();
+}
 
-  text("Rotation rate:", 10, 100);
-  text(
-    rrateX.toFixed(2) + ", " + rrateY.toFixed(2) + ", " + rrateZ.toFixed(2),
-    10,
-    120
-  );
-
-  text("Orientation:", 10, 160);
-  text(
-    rotateDegrees.toFixed(2) + ", " + leftToRight.toFixed(2) + ", " + frontToBack.toFixed(2),
-    10,
-    180
-  );
+function checkCollision() {
+  if(dist(coinX, coinY, x, y)< coinSize/2 + snotSize/2){
+  coinX = random(0,width);
+  coinY = random(0, height);
+  count = count+1;
+  }
 }
 
 // SEND DATA TO SERVER
