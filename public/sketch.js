@@ -55,7 +55,7 @@ const SEND_RATE = 30; // ms (~33 fps)
 
 
 function preload() {
-  pixelFont = loadFont("LowerPixel.ttf");
+  pixelFont = loadFont("LowresPixel-Regular.otf");
 }
 
 
