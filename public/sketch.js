@@ -29,6 +29,8 @@ let rotateDegrees = 0;
 let frontToBack = 0;
 let leftToRight = 0;
 
+let flashTimer = 0;
+
 let x, y;
 let maxSnotSpeed = 8;
 let coinX,coinY;
@@ -39,7 +41,7 @@ let snotSize = 10;
 
 let count = 0;
 let totalCount = 0;
-
+let coinsmallSize = 30;
 
 // throttle device motion sending
 let lastSent = 0;
@@ -53,9 +55,8 @@ function setup() {
 
   x = width/2;
   y = height/2;
-  coinX = random(0,width);
-  coinY = random(0, height);
-
+  coinX = random(coinSize / 2, width - coinSize / 2);
+  coinY = random(coinSize / 2, height - coinSize / 2);
   rectMode(CENTER);
   angleMode(DEGREES);
   //text styling
@@ -162,35 +163,68 @@ function visualiseMyData(){
 
   background(255);
 
-//   push();
+  if (flashTimer > 0) {
+  background(0, 225, 0);   
+  flashTimer=flashTimer-1;          
+} else {
+  background(0, 18, 255); 
+}
+
+push();
+  fill("yellow");
+  stroke("rgb(65,65,65)");
   circle(coinX, coinY, coinSize);
-//   pop();
+  circle(coinX, coinY, coinsmallSize);
+  textAlign(CENTER, CENTER);
+  textFont("Lower Pixel");
+  textSize(16);
+  fill("rgb(65,65,65)");
+  text(1, coinX, coinY + 1.5);
+  pop();
+
+  push();
+  stroke("white");
+  strokeWeight(snotSize);
+  textSize(40);
+  textAlign(CENTER, CENTER);
+  line(width / 2, height / 2, x, y);
+  text("👄", width / 2, height / 2);
+  pop();
+
+  push();
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  text("👅", x, y);
+  pop();
   
   push();
-  stroke('rgb(217,238,171)');
-  strokeWeight(snotSize);
-  line(width/2, height/2, x,y);
+  textSize(60);
+  text("💴", 335, 50);
+  fill("red");
+  textSize(15);
+  textFont("Lower Pixel");
+  text("CONUT: " + count, 335, 60);
   pop();
- 
-  
+
   //Creating a tilt sensor mechanic that has a sort of boolean logic (on or off)
   //if the phone is rotated front/back/left/right we will get an arrow point in that direction 
   push();
   translate(width/2,height/2);
+
   x = x + constrain(map(leftToRight,-50,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
-  
   y = y + constrain(map(frontToBack,-30,50,-maxSnotSpeed,maxSnotSpeed), -maxSnotSpeed, maxSnotSpeed);
   
-  
+  x = constrain(x, 0, width);
+  y = constrain(y, 0, height);
   pop();
-  checkCollision();
 
+  checkCollision();
 }
 
 function checkCollision() {
   if(dist(coinX, coinY, x, y)< coinSize/2 + snotSize/2){
-  coinX = random(0,width);
-  coinY = random(0, height);
+  coinX = random(coinSize / 2, width - coinSize / 2);
+  coinY = random(coinSize / 2, height - coinSize / 2);
   socket.emit("coinCollected");
   }
 }
@@ -206,11 +240,15 @@ function drawScores() {
       myCount = experienceState.users[id].count;
     }
   }
-  fill(0);
-  textSize(16);
-  text("My coins: " + myCount, 10, 30);
-  text("Total coins (everyone online): " + onlineTotal, 10, 55);
-  text("Total coins (history): " + totalCount, 10, 80);
+
+  push();
+  fill("white");
+  textSize(12);
+  textFont("Lower Pixel");
+  text("My coins: " + myCount, 5, 12);
+  text("Total coins (everyone online): " + onlineTotal, 5, 25);
+  text("Total coins (history): " + totalCount, 5, 38);
+  pop();
 }
 
 
