@@ -212,15 +212,17 @@ const hudX = width - hudW - pad;   // left of HUD box
 const hudY = pad;                  // top of HUD box
 
 // // background panel
-// noStroke();
-// fill(0, 120); // semi-transparent dark
-// rectMode(CORNER);
-// rect(hudX, hudY+5, hudW, hudH, 14);
 
+const FrameLeft = 20;
+const FrameTop = 45;
+const FrameRight = width - 40;
+const FrameDown = height - 70;
+  
+rect(FrameLeft,FrameTop,FrameRight,FrameDown);
 // icon
 textAlign(LEFT, TOP);
 textSize(35);
-text("💴", hudX + 20, hudY - 9);
+text("💴", hudX, hudY - 9);
 
 // text styles
 textFont("Lower Pixel");
@@ -229,12 +231,12 @@ textAlign(LEFT, TOP);
 // big title (My coins)
 fill(255);
 textSize(9);
-text("My Coins", hudX+20, hudY + 25);
+text("My Coins", hudX, hudY + 25);
 
 noStroke();
 fill(255);
 textSize(45);
-text(myCount, hudX+65, hudY-6);
+text(myCount, hudX+45, hudY-6);
 
 // small lines (online + history)
 fill(255);
