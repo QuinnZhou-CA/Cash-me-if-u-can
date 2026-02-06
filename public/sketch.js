@@ -191,7 +191,7 @@ push();
   textFont(pixelFont);
   textSize(16);
   fill("rgb(65,65,65)");
-  text(1, coinX, coinY + 1.5);
+  text(1, coinX, coinY);
   pop();
 
   push();
