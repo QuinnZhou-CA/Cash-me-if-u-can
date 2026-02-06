@@ -3,6 +3,9 @@ const socket = io();
 
 let canvas;
 
+let myCount = 0;
+let onlineTotal = 0;
+
 let randomX;
 let randomY;
 
@@ -197,14 +200,51 @@ push();
   text("👅", x, y);
   pop();
   
-  push();
-  textSize(60);
-  text("💴", 335, 50);
-  fill("red");
-  textSize(15);
-  textFont("Lower Pixel");
-  text("CONUT: " + count, 335, 60);
-  pop();
+// ---- Pretty HUD (Top-right) ----
+push();
+
+const pad = 12;
+const hudW = 165;
+const hudH = 78;
+
+const hudX = width - hudW - pad;   // left of HUD box
+const hudY = pad;                  // top of HUD box
+
+// background panel
+noStroke();
+fill(0, 120); // semi-transparent dark
+rectMode(CORNER);
+rect(hudX, hudY, hudW, hudH, 14);
+
+// icon
+textAlign(LEFT, TOP);
+textSize(28);
+text("💴", hudX + 10, hudY + 8);
+
+// text styles
+textFont("Lower Pixel");
+textAlign(LEFT, TOP);
+
+// big title (My coins)
+stroke(0, 200);
+strokeWeight(3);
+fill(255);
+textSize(14);
+text("My coins", hudX + 48, hudY + 10);
+
+noStroke();
+fill(255);
+textSize(22);
+text(myCount, hudX + 48, hudY + 26);
+
+// small lines (online + history)
+fill(255, 220);
+textSize(10);
+text("Online:  " + onlineTotal, hudX + 10, hudY + 54);
+text("History: " + totalCount,  hudX + 10, hudY + 66);
+
+pop();
+
 
   //Creating a tilt sensor mechanic that has a sort of boolean logic (on or off)
   //if the phone is rotated front/back/left/right we will get an arrow point in that direction 
@@ -230,26 +270,18 @@ function checkCollision() {
 }
 
 function drawScores() {
-  let myCount = 0;
-  let onlineTotal = 0;
+  myCount = 0;
+  onlineTotal = 0;
 
   for (let id in experienceState.users) {
-    onlineTotal += experienceState.users[id].count;
+    onlineTotal += experienceState.users[id].count || 0;
 
     if (id === me) {
-      myCount = experienceState.users[id].count;
+      myCount = experienceState.users[id].count || 0;
     }
   }
-
-  push();
-  fill("white");
-  textSize(12);
-  textFont("Lower Pixel");
-  text("My coins: " + myCount, 5, 12);
-  text("Total coins (everyone online): " + onlineTotal, 5, 25);
-  text("Total coins (history): " + totalCount, 5, 38);
-  pop();
 }
+
 
 
 // SEND DATA TO SERVER
