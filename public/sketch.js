@@ -273,7 +273,8 @@ function checkCollision() {
 
 function drawScores() {
   myCount = 0;
-  onlineTotal = 0;
+  totalCount = 0;
+  onlineTotal = Object.keys(experienceState.users).length;
 
   for (let id in experienceState.users) {
     onlineTotal += experienceState.users[id].count || 0;
@@ -373,7 +374,6 @@ socket.on("userMoved", (data) => {
 
 socket.on("scoreUpdate", (data) => {
   experienceState.users = data.users;
-  totalCount = data.totalCount;
 });
 
 
