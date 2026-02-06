@@ -238,7 +238,7 @@ text("My Coins", hudX, hudY + 25);
 noStroke();
 fill(255);
 textSize(45);
-text(myCount, hudX+45, hudY-6);
+text(myCount, hudX+45, hudY-10);
 
 // small lines (online + history)
 fill(255);
