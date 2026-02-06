@@ -211,14 +211,7 @@ const hudH = 78;
 const hudX = width - hudW - pad;   // left of HUD box
 const hudY = pad;                  // top of HUD box
 
-// // background panel
 
-const FrameLeft = 20;
-const FrameTop = 45;
-const FrameRight = width - 40;
-const FrameDown = height - 70;
-  
-rect(FrameLeft,FrameTop,FrameRight,FrameDown);
 // icon
 textAlign(LEFT, TOP);
 textSize(35);
@@ -243,6 +236,18 @@ fill(255);
 textSize(12);
 text("Online People:  " + onlineTotal, hudX-270, hudY + 10);
 text("Total Coins: " + totalCount,  hudX-160, hudY+10);
+
+pop();
+
+push();
+// // background panel
+
+const FrameLeft = 20;
+const FrameTop = 45;
+const FrameRight = width - 40;
+const FrameDown = height - 70;
+  
+rect(FrameLeft,FrameTop,FrameRight,FrameDown);
 
 pop();
 
