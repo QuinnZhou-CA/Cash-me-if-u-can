@@ -244,8 +244,8 @@ push();
 
 const FrameLeft = 20;
 const FrameTop = 45;
-const FrameRight = width - 40;
-const FrameDown = height - 70;
+const FrameRight = windowWidth - 40;
+const FrameDown = windowHeight - 70;
   
 rect(FrameLeft,FrameTop,FrameRight,FrameDown);
 
