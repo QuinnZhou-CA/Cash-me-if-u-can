@@ -201,50 +201,48 @@ push();
   pop();
   
 // ---- Pretty HUD (Top-right) ----
-push();
+
+  push();
 
 const pad = 12;
-const hudW = 165;
+const hudW = 100;
 const hudH = 78;
 
 const hudX = width - hudW - pad;   // left of HUD box
 const hudY = pad;                  // top of HUD box
 
-// background panel
-noStroke();
-fill(0, 120); // semi-transparent dark
-rectMode(CORNER);
-rect(hudX, hudY, hudW, hudH, 14);
+// // background panel
+// noStroke();
+// fill(0, 120); // semi-transparent dark
+// rectMode(CORNER);
+// rect(hudX, hudY+5, hudW, hudH, 14);
 
 // icon
 textAlign(LEFT, TOP);
-textSize(28);
-text("💴", hudX + 10, hudY + 8);
+textSize(35);
+text("💴", hudX + 20, hudY - 9);
 
 // text styles
 textFont("Lower Pixel");
 textAlign(LEFT, TOP);
 
 // big title (My coins)
-stroke(0, 200);
-strokeWeight(3);
 fill(255);
-textSize(14);
-text("My coins", hudX + 48, hudY + 10);
+textSize(9);
+text("My Coins", hudX+20, hudY + 25);
 
 noStroke();
 fill(255);
-textSize(22);
-text(myCount, hudX + 48, hudY + 26);
+textSize(45);
+text(myCount, hudX+65, hudY-6);
 
 // small lines (online + history)
-fill(255, 220);
-textSize(10);
-text("Online:  " + onlineTotal, hudX + 10, hudY + 54);
-text("History: " + totalCount,  hudX + 10, hudY + 66);
+fill(255);
+textSize(12);
+text("Online People:  " + onlineTotal, hudX-270, hudY + 10);
+text("Total Coins: " + totalCount,  hudX-160, hudY+10);
 
 pop();
-
 
   //Creating a tilt sensor mechanic that has a sort of boolean logic (on or off)
   //if the phone is rotated front/back/left/right we will get an arrow point in that direction 
