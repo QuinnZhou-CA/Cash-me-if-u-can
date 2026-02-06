@@ -10,6 +10,9 @@ let randomX;
 let randomY;
 
 let me; // for storing my socket.id
+
+let pixelFont;
+
 let experienceState = {
   users: {}            // socket.id -> movement data
 };
@@ -49,6 +52,12 @@ let coinsmallSize = 30;
 // throttle device motion sending
 let lastSent = 0;
 const SEND_RATE = 30; // ms (~33 fps)
+
+
+function preload() {
+  pixelFont = loadFont("LowerPixel.ttf");
+}
+
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
@@ -179,7 +188,7 @@ push();
   circle(coinX, coinY, coinSize);
   circle(coinX, coinY, coinsmallSize);
   textAlign(CENTER, CENTER);
-  textFont("Lower Pixel");
+  textFont(pixelFont);
   textSize(16);
   fill("rgb(65,65,65)");
   text(1, coinX, coinY + 1.5);
@@ -218,7 +227,7 @@ textSize(35);
 text("💴", hudX, hudY - 9);
 
 // text styles
-textFont("Lower Pixel");
+textFont(pixelFont);
 textAlign(LEFT, TOP);
 
 // big title (My coins)
@@ -236,18 +245,6 @@ fill(255);
 textSize(12);
 text("Online People:  " + onlineTotal, hudX-270, hudY + 10);
 text("Total Coins: " + totalCount,  hudX-160, hudY+10);
-
-pop();
-
-push();
-// // background panel
-
-const FrameLeft = 20;
-const FrameTop = 45;
-const FrameRight = windowWidth - 40;
-const FrameDown = windowHeight - 70;
-  
-rect(FrameLeft,FrameTop,FrameRight,FrameDown);
 
 pop();
 
@@ -476,6 +473,7 @@ function checkMobileDevice() {
   // test() returns true if the pattern is found, false otherwise
   return mobileRegex.test(userAgent);
 }
+
 
 /*
   Note on device detection for more professional / production-level projects:
