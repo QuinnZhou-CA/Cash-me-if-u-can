@@ -277,10 +277,11 @@ function drawScores() {
   onlineTotal = Object.keys(experienceState.users).length;
 
   for (let id in experienceState.users) {
-    onlineTotal += experienceState.users[id].count || 0;
+    totalCount += experienceState.users[id].count || 0;
 
     if (id === me) {
       myCount = experienceState.users[id].count || 0;
+      
     }
   }
 }
@@ -374,6 +375,7 @@ socket.on("userMoved", (data) => {
 
 socket.on("scoreUpdate", (data) => {
   experienceState.users = data.users;
+  experienceState.totalCount = data.totalCount;
 });
 
 
