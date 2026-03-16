@@ -1,4 +1,6 @@
 # CASH+ME+IF+U+CAN
+Xinyu Zhou xzhou020@gold.ac.uk
+Xinchun Fu xfu002@gold.ac.uk
 
 ## Short Description
 This project is inspired by the classic game Gold
